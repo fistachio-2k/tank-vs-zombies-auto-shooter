@@ -53,7 +53,4 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TurretMesh;
-
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* ProjectileSpawnPoint;
 };

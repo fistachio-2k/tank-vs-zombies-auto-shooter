@@ -7,6 +7,10 @@
 #include "GameFramework/Pawn.h"
 #include "TankPawn.generated.h"
 
+class UCapsuleComponent;
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
 class TANKVSZOMBIES_API ATankPawn : public APawn
 {
@@ -28,8 +32,28 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void Move(const FInputActionInstance& Instance);
+	void MoveForward(const FInputActionInstance& Instance);
+	void TurnRight(const FInputActionInstance& Instance);
+	void RotateTurret(const FInputActionInstance& Instance);
+
+	UPROPERTY()
+	APlayerController* PlayerController;
 	
-	UPROPERTY(EditAnywhere)
-	float Speed;
+	UPROPERTY(EditAnywhere, Category="Locomotion")
+	float MoveSpeed = 200;
+	
+	UPROPERTY(EditAnywhere, Category="Locomotion")
+	float TurnSpeed = 100;
+
+	UPROPERTY(VisibleAnywhere)
+	UCapsuleComponent* Capsule;
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* BodyMesh;
+	
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* TurretMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	USceneComponent* ProjectileSpawnPoint;
 };

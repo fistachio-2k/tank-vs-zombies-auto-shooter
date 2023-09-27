@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "BaseWeapon.generated.h"
 
+UENUM()
 enum EFireType
 {
 	Single,
@@ -27,11 +28,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	void Fire();
 	virtual void FireInternal();
-	virtual void Fire();
 
 	void CeaseFire();
 
@@ -44,7 +42,7 @@ public:
 	float FireRate = 1;
 
 	UPROPERTY(EditAnywhere)
-	EFireType FireType = Single;
+	TEnumAsByte<EFireType> FireType = Single;
 
 	UPROPERTY(EditAnywhere)
 	bool bIsInfAmmo = false;

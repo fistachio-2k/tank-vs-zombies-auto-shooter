@@ -20,8 +20,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void FireInternal() override;
 
-	virtual void Fire() override;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AProjectile> ProjectileClass;
 };

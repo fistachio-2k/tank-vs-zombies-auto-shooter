@@ -32,10 +32,47 @@ void ABaseWeapon::Tick(float DeltaTime)
 
 void ABaseWeapon::Fire()
 {
+	if (GetWorld()->GetTimerManager().IsTimerActive(FireTimerHandle))
+	{
+		return;
+	}
+	
 	if (Ammo > 0)
 	{
 		Ammo--;
 	}
+
+	if (bIsInfAmmo || Ammo > 0)
+	{
+		switch (FireType) {
+		case Single:
+			FireInternal();
+			break;
+		case Burst:
+			GetWorld()->GetTimerManager().SetTimer(FireTimerHandle,
+				FTimerDelegate::CreateUObject(this, &ABaseWeapon::FireInternal),
+				FireRate,
+				false);
+			break;
+		case Auto:
+			GetWorld()->GetTimerManager().SetTimer(FireTimerHandle,
+				FTimerDelegate::CreateUObject(this, &ABaseWeapon::FireInternal),
+				FireRate,
+				true);
+			break;
+		default: ;
+		}
+	}
+}
+
+void ABaseWeapon::FireInternal()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 4.5f, FColor::Magenta, TEXT("Fire!"));
+}
+
+void ABaseWeapon::CeaseFire()
+{
+	GetWorld()->GetTimerManager().ClearTimer(FireTimerHandle);
 }
 
 void ABaseWeapon::Reload(const int AmmoToAdd)

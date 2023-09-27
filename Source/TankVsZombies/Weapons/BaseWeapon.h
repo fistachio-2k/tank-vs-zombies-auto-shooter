@@ -30,7 +30,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void FireInternal();
 	virtual void Fire();
+
+	void CeaseFire();
 
 	virtual void Reload(int AmmoToAdd);
 
@@ -41,6 +44,9 @@ public:
 	float FireRate = 1;
 
 	UPROPERTY(EditAnywhere)
+	EFireType FireType = Single;
+
+	UPROPERTY(EditAnywhere)
 	bool bIsInfAmmo = false;
 
 	UPROPERTY(VisibleAnywhere)
@@ -48,4 +54,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* ProjectileSpawnPoint;
+
+private:
+	FTimerHandle FireTimerHandle;
 };

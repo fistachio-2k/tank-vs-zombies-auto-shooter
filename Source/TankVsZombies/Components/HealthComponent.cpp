@@ -4,6 +4,7 @@
 #include "HealthComponent.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "TankVsZombies/EndlessGameMode.h"
 
 
 // Sets default values for this component's properties
@@ -23,8 +24,9 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
-	GameMode = UGameplayStatics::GetGameMode(this);
+	GameMode = Cast<AEndlessGameMode>(UGameplayStatics::GetGameMode(this));
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
+	UE_LOG(LogTemp, Warning, TEXT("%s health = %f"), *GetOwner()->GetName(), Health);
 }
 
 

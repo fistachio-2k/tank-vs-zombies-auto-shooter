@@ -19,8 +19,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-
+private:
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* ProjectileMesh;
 
@@ -38,6 +40,9 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	USoundBase* LaunchSound;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UCameraShakeBase> HitCameraShakeClass;
 	
 	UPROPERTY(EditAnywhere)
 	float Damage = 50.f;

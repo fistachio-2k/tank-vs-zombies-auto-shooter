@@ -7,6 +7,8 @@
 #include "HealthComponent.generated.h"
 
 
+class AEndlessGameMode;
+
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class TANKVSZOMBIES_API UHealthComponent : public UActorComponent
 {
@@ -21,19 +23,16 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
-	                           FActorComponentTickFunction* ThisTickFunction) override;
-
 	UFUNCTION()
 	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* Instigator, AActor* DamageCauser);
 
 private:
-
+	UPROPERTY()
+	AEndlessGameMode* GameMode;
+	
 	UPROPERTY(EditAnywhere)
 	float MaxHealth = 100.f;
 
 	float Health;
-	
-	AGameModeBase* GameMode;
+
 };

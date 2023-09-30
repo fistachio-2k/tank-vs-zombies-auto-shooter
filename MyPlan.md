@@ -64,7 +64,7 @@ graph TD
     - Mechanic: walking towards the player location, and upon entering FOV switch to running.
 - Stalker zombie [health: 10, damage: 5, speed: fast]
     - Mechanic: Trying to sneak towards the player location from an angle outside of the player FOV, after getting close enough, start running towards the player.
-- Hugh zombie [health: 40, damage: 20, speed: slow]
+- Huge zombie [health: 40, damage: 20, speed: slow]
     - Mechanic: Brut force.
 - Zombies [hugh zombie excluded] can be ran over by the tank, while applying minimal damage [2].
 
@@ -92,7 +92,7 @@ graph TD
 
 ```mermaid
 timeline
-Basic Tank : Tank Movment : Tank Main Cannon : Tan kHealth
+Basic Tank : Tank Movment : Tank Main Cannon : Tank Health
 Basic Zombie : Zombie Movement : Zombie Attack : Zombie Health
 Regular Zombie : AI 
 XP: Gain XP : Level Up : Save Score
@@ -103,7 +103,7 @@ Basic Power Up: Health Kit
 timeline
 Basic Spawn: Spawn Regular Zombie : Waves Manager
 UX: Main Menu : Leaderboard : Quit
-Advenced Zombies: Heugh Zombie : Stalker Zombie
+Advenced Zombies: Huge Zombie : Stalker Zombie
 Advenced Power Ups: General : Main Cannon : Additional Weapons
 Balance : Waves : Power Ups : Zombies
 ```

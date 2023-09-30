@@ -9,9 +9,8 @@ ABaseWeapon::ABaseWeapon()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-	Mesh->SetupAttachment(RootComponent);
+	SetRootComponent(Mesh);
 	
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(Mesh);
@@ -61,7 +60,7 @@ void ABaseWeapon::Fire()
 
 void ABaseWeapon::FireInternal()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 4.5f, FColor::Magenta, TEXT("Fire!"));
+	UE_LOG(LogTemp, Warning, TEXT("Fire!"));
 }
 
 void ABaseWeapon::CeaseFire()

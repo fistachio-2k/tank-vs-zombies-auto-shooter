@@ -4,28 +4,21 @@
 #include "TankPawn.h"
 #include "EnhancedInputComponent.h"
 #include "TankController.h"
-#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "TankVsZombies/Weapons/BaseWeapon.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsul Collider"));
 	SetRootComponent(Capsule);
 	
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body Mesh"));
 	BodyMesh->SetupAttachment(Capsule);
-
-	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));
-	TurretMesh->SetupAttachment(BodyMesh);
-
-	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
-	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
 // Called when the game starts or when spawned
@@ -33,12 +26,9 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerController = Cast<APlayerController>(GetController());
-}
 
-// Called every frame
-void ATankPawn::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	MainWeapon = GetWorld()->SpawnActor<ABaseWeapon>(MainWeaponClass, BodyMesh->GetSocketLocation(MainWeaponSocket), BodyMesh->GetSocketRotation(MainWeaponSocket));
+	MainWeapon->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, MainWeaponSocket);
 }
 
 // Called to bind functionality to input
@@ -85,9 +75,9 @@ void ATankPawn::RotateTurret(const FInputActionInstance& Instance)
 		if (Hit.ImpactPoint != FVector::ZeroVector)
 		{
 			const FVector LookAtTarget = Hit.ImpactPoint;
-			const FVector ToTarget = LookAtTarget - TurretMesh->GetComponentLocation();
+			const FVector ToTarget = LookAtTarget - MainWeapon->GetActorLocation();
 			const FRotator Rotation = FRotator(0, ToTarget.Rotation().Yaw, 0);
-			TurretMesh->SetWorldRotation(Rotation);
+			MainWeapon->SetActorRotation(Rotation);
 		}
 	}
 }

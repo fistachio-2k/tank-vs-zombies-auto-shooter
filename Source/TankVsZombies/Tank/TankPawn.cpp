@@ -6,6 +6,7 @@
 #include "TankController.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "TankVsZombies/Weapons/BaseWeapon.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
@@ -18,9 +19,6 @@ ATankPawn::ATankPawn()
 	
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body Mesh"));
 	BodyMesh->SetupAttachment(Capsule);
-
-	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));
-	TurretMesh->SetupAttachment(BodyMesh);
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +26,9 @@ void ATankPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerController = Cast<APlayerController>(GetController());
+
+	MainWeapon = GetWorld()->SpawnActor<ABaseWeapon>(MainWeaponClass, BodyMesh->GetSocketLocation(MainWeaponSocket), BodyMesh->GetSocketRotation(MainWeaponSocket));
+	MainWeapon->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, MainWeaponSocket);
 }
 
 // Called to bind functionality to input
@@ -74,9 +75,9 @@ void ATankPawn::RotateTurret(const FInputActionInstance& Instance)
 		if (Hit.ImpactPoint != FVector::ZeroVector)
 		{
 			const FVector LookAtTarget = Hit.ImpactPoint;
-			const FVector ToTarget = LookAtTarget - TurretMesh->GetComponentLocation();
+			const FVector ToTarget = LookAtTarget - MainWeapon->GetActorLocation();
 			const FRotator Rotation = FRotator(0, ToTarget.Rotation().Yaw, 0);
-			TurretMesh->SetWorldRotation(Rotation);
+			MainWeapon->SetActorRotation(Rotation);
 		}
 	}
 }

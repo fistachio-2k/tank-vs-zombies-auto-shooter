@@ -17,7 +17,8 @@ AMainCannon::AMainCannon()
 void AMainCannon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	FireType = Auto;
+	Fire();
 }
 
 void AMainCannon::FireInternal()

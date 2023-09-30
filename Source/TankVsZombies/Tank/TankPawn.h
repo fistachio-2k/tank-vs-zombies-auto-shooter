@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "TankPawn.generated.h"
 
+class ABaseWeapon;
 class UCapsuleComponent;
 class UCameraComponent;
 class USpringArmComponent;
@@ -47,7 +48,13 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BodyMesh;
-	
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* TurretMesh;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ABaseWeapon> MainWeaponClass;
+
+	UPROPERTY()
+	ABaseWeapon* MainWeapon;
+
+	UPROPERTY(EditAnywhere)
+	FName MainWeaponSocket;
 };

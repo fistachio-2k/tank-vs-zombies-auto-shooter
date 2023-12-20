@@ -3,6 +3,9 @@
 
 #include "ZombieController.h"
 
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AZombieController::AZombieController()
@@ -16,6 +19,17 @@ void AZombieController::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (AIBehavior != nullptr)
+	{
+		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this,0);
+		if (PlayerPawn == nullptr)
+		{
+			return;
+		}
+	
+		RunBehaviorTree(AIBehavior);
+		GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
+	}
 }
 
 // Called every frame

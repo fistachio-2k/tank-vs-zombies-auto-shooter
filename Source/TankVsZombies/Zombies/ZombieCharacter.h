@@ -20,8 +20,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	TSubclassOf<AActor>
-	
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* Weapon;
 

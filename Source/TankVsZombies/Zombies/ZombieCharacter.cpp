@@ -3,6 +3,8 @@
 
 #include "ZombieCharacter.h"
 
+#include "TankVsZombies/Weapons/MeleeWeapon.h"
+
 
 // Sets default values
 AZombieCharacter::AZombieCharacter()
@@ -14,7 +16,22 @@ AZombieCharacter::AZombieCharacter()
 // Called when the game starts or when spawned
 void AZombieCharacter::BeginPlay()
 {
-	// Weapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, WeaponSocket);
 	Super::BeginPlay();
+	if (WeaponClass != nullptr)
+	{
+		if (UWorld* World = GetWorld())
+		{
+			FActorSpawnParameters SpawnParameters;
+			
+			SpawnParameters.Owner = this;
+			SpawnParameters.Instigator = this;
+
+			if (AMeleeWeapon* WeaponActor = World->SpawnActor<AMeleeWeapon>(WeaponClass, GetActorTransform(), SpawnParameters))
+			{
+				MeleeWeapon = WeaponActor;
+				WeaponActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, WeaponSocket);
+			}
+		}
+	}
 }
 

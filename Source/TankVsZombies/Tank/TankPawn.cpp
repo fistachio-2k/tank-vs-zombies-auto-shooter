@@ -21,6 +21,22 @@ ATankPawn::ATankPawn()
 	BodyMesh->SetupAttachment(Capsule);
 }
 
+void ATankPawn::OnReceivePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation,
+	UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType,
+	AActor* DamageCauser)
+{
+	// UGameplayStatics::PlaySoundAtLocation(GetWorld(),HitCue, HitLocation);
+	// UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), BloodEmitter, HitLocation, ShotFromDirection.Rotation());
+	// PlayAnimMontage(HitMontage);
+	Healthh -= Damage;
+	UE_LOG(LogTemp, Warning, TEXT("Received %f damage"), Healthh);
+	
+	if (Healthh <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("You are dead!"))
+	}
+}
+
 // Called when the game starts or when spawned
 void ATankPawn::BeginPlay()
 {
@@ -29,6 +45,8 @@ void ATankPawn::BeginPlay()
 
 	MainWeapon = GetWorld()->SpawnActor<ABaseWeapon>(MainWeaponClass, BodyMesh->GetSocketLocation(MainWeaponSocket), BodyMesh->GetSocketRotation(MainWeaponSocket));
 	MainWeapon->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform, MainWeaponSocket);
+
+	OnTakePointDamage.AddUniqueDynamic(this, &ATankPawn::OnReceivePointDamage);
 }
 
 // Called to bind functionality to input

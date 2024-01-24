@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ZombieCharacter.generated.h"
 
+class AMeleeWeapon;
+
 UCLASS()
 class TANKVSZOMBIES_API AZombieCharacter : public ACharacter
 {
@@ -21,8 +23,13 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Weapon;
+	TSubclassOf<AMeleeWeapon> WeaponClass;
 
+	
 	UPROPERTY(EditAnywhere)
 	FName WeaponSocket = "WeaponSocket_R";
+
+public:
+	UPROPERTY()
+	AMeleeWeapon* MeleeWeapon;
 };

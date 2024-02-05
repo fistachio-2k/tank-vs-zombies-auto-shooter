@@ -28,7 +28,7 @@ void AZombieController::BeginPlay()
 		}
 	
 		RunBehaviorTree(AIBehavior);
-		GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
+		// GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
 	}
 }
 

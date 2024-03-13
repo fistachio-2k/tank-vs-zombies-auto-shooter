@@ -21,14 +21,13 @@ void AZombieController::BeginPlay()
 	
 	if (AIBehavior != nullptr)
 	{
-		APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this,0);
+		const APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this,0);
 		if (PlayerPawn == nullptr)
 		{
 			return;
 		}
 	
 		RunBehaviorTree(AIBehavior);
-		GetBlackboardComponent()->SetValueAsObject(TEXT("Player"), PlayerPawn);
 	}
 }
 

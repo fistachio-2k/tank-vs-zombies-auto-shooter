@@ -22,6 +22,10 @@ public:
 	ATankPawn();
 
 protected:
+	UFUNCTION()
+	void OnReceivePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName,
+	                          FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser);
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -57,4 +61,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	FName MainWeaponSocket;
+
+	UPROPERTY(EditAnywhere)
+	float Healthh = 100;
 };
